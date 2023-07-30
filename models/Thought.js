@@ -18,7 +18,14 @@ const thoughtSchema = new mongoose.Schema({
     required: true,
   },
   reactions: [reactionSchema], // Using the imported Reaction subdocument schema as an array of nested documents
-});
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
+);
 
 // Virtual to get the length of the thought's reactions array field
 thoughtSchema.virtual('reactionCount').get(function () {
