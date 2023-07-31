@@ -2,23 +2,13 @@ const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
 
-// ,
-// ,
-// ,
-// ,
-// ,
-// ,
-// ,
-// 
-
 module.exports = {
     // Get all Tthoughts
     async getThoughts(req, res) {
       try {
-        const thoughts = await Thought.find();
+        const thoughts = await Thought.find().select('-__v');
         const thoughtObj = {
           thoughts,
-          //friendCount: await  User.find().populate('friends'),
         };
   
         res.json(thoughtObj);
@@ -30,11 +20,10 @@ module.exports = {
     // Get a single thought
     async getSingleThought(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought, such as its ObjectId
           const thoughtId = req.params.thoughtId;
       
-          // Use findOne() to find the thought based on its _id
-          const thought = await Thought.findOne({ _id: thoughtId });
+          // findOne() to find the thought based on its _id
+          const thought = await Thought.findOne({ _id: thoughtId }).select('-__v');
       
           if (!thought) {
             return res.status(404).json({ message: 'Thought not found' });
@@ -58,7 +47,7 @@ module.exports = {
       
           // Step 2: Find the user and associate the thought with them
           const user = await User.findOneAndUpdate(
-            { username: req.body.username }, // Assuming you have a userId property in the request body
+            { username: req.body.username }, 
             { $push: { thoughts: thought._id } },
             { new: true }
           );
@@ -77,7 +66,6 @@ module.exports = {
 
       async updateThought(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought, such as its ObjectId
           const thoughtId = req.params.thoughtId;
       
           // Define the update object with the new values you want to set
@@ -107,7 +95,6 @@ module.exports = {
 
       async deleteThought(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought, such as its ObjectId
           const thoughtId = req.params.thoughtId;
       
           // Step 1: Delete the thought using findOneAndDelete()
@@ -138,7 +125,6 @@ module.exports = {
       // create reaction on a thought 
       async createReaction(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought, such as its ObjectId
           const thoughtId = req.params.thoughtId;
       
           // Create a new reaction object based on the Reaction schema
@@ -170,7 +156,6 @@ module.exports = {
       // delete a reaction 
       async deleteReaction(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought and the reaction, such as their ObjectIds
           const thoughtId = req.params.thoughtId;
           const reactionId = req.params.reactionId;
       
@@ -207,7 +192,6 @@ module.exports = {
       // get all the reactions assosiated whith a thought
       async getReactions(req, res) {
         try {
-          // Assuming you have a unique identifier for the thought, such as its ObjectId
           const thoughtId = req.params.thoughtId;
       
           // Step 1: Find the thought by its _id and select only the reactions field
