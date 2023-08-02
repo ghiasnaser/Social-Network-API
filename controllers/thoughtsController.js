@@ -126,15 +126,9 @@ module.exports = {
       async createReaction(req, res) {
         try {
           const thoughtId = req.params.thoughtId;
-          console.log('----------------------------------------------');
-          console.log(thoughtId);
-          console.log('----------------------------------------------');
       
           // Step 1: Find the thought by its _id
           let thought = await Thought.findOne({ _id: thoughtId });
-          console.log('----------------------------------------------');
-          console.log(thought);
-          console.log('----------------------------------------------');
           if (!thought) {
             return res.status(404).json({ message: 'Thought not found' });
           }
@@ -145,19 +139,11 @@ module.exports = {
             reactionBody: req.body.reactionBody,
             username: req.body.username,
           };
-          console.log('----------------------------------------------');
-          console.log(newReaction);
-          console.log('----------------------------------------------');
       
           // Step 2: Add the new reaction object to the thought's reactions array
           thought.reactions.push(newReaction);
-          console.log(thought);
           // Step 3: Save the updated thought with the new reaction
           const updatedThought = await thought.save();
-          console.log(updatedThought);
-          console.log('----------------------------------------------');
-          console.log(updatedThought);
-          console.log('----------------------------------------------');
           res.json(updatedThought);
         } catch (err) {
           console.error(err);
@@ -184,38 +170,6 @@ module.exports = {
           if (!thought) {
             return res.status(404).json({ message: 'Thought not found' });
           }
-      
-          // Step 2: Find the index of the reaction in the thought's reactions array
-          // const reactionIndex = thought.reactions.findIndex(
-          //   (reaction) => reaction._id.toString() === reactionId
-          // );
-
-
-          //   console.log(thought.reactions[0]._id.toString());
-          
-          // var reactionIndex=-1;
-          // for (var i=0;i<thought.reactions.length;i++){
-          //   console.log(thoughtId);
-          //   console.log(reactionId);
-          //   console.log(thought.reactions[i]._id.toString());
-          //   if (thought.reactions[i]._id.toString() === reactionId){
-          //     reactionIndex=i;
-          //   }
-          //   else{
-          //     reactionIndex=-1;
-          //   }
-          // }
-          // Step 3: If the reaction is not found, return a 404 status code
-          // if (reactionIndex === -1) {
-          //   return res.status(404).json({ message: 'Reaction not found in the thought' });
-          // }
-      
-          // Step 4: Remove the reaction from the reactions array
-         // thought.reactions.splice(reactionIndex, 1);
-      
-          // Step 5: Save the updated thought after removing the reaction
-          //const thought = await thought.save();
-      
           res.json(thought);
         } catch (err) {
           console.error(err);
