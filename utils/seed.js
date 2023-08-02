@@ -46,8 +46,9 @@ connection.once('open',async ()=>{
         const reactionBody =getRandomReaction();
         const reactionUsername  = getRandomUser();
         reactions.push({
+            reactionId:j,
             reactionBody,
-            reactionUsername,
+            username:reactionUsername,
         });
     }
     thoughts.push({
@@ -70,7 +71,6 @@ const allThoughts = await Thought.find({});
 // Loop through each thought and update the user's thoughts array
 for (const thought of allThoughts) {
   const name  = thought.username;
-  console.log(name);
   // Find the user by the username
   const user = await User.findOne( {username:name });
   const numberOfFriends= Math.floor(Math.random() * (5)) + 1;

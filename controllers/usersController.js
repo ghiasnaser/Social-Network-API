@@ -93,7 +93,9 @@ module.exports = {
   async addFriend(req, res) {
     try {
       const user = await User.findById(req.params.userId);
-      const friend=await User.findById(req.body.friendId);
+      console.log(user);
+      const friend=await User.findById(req.body._id);
+      console.log(friend);
       if (!user) {
         return res.status(404).json({ message: 'No such user exists' });
       }
@@ -102,12 +104,12 @@ module.exports = {
       }
   
       // Check if the friendId is already in the user's friends array
-      if (user.friends.includes(req.body.friendId)) {
+      if (user.friends.includes(req.body._id)) {
         return res.status(400).json({ message: 'Friend is already in the user\'s friends list' });
       }
   
       // If the friendId is not in the user's friends array, add them using $addToSet
-      user.friends.push(req.body.friendId);
+      user.friends.push(req.body._id);
       await user.save();
   
       res.json(user);

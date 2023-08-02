@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const reactionSchema = new mongoose.Schema({
-  reactionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
+  reactionId:{
+    type: Number,
+    default: 0, // Initial value for tracking
   },
   reactionBody: {
     type: String,
@@ -20,5 +20,7 @@ const reactionSchema = new mongoose.Schema({
     get: (timestamp) => dateFormat(timestamp), // Implement the dateFormat function
   },
 });
+
+
 
 module.exports = reactionSchema;
